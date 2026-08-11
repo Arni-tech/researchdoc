@@ -1,0 +1,68 @@
+{% extends "researchdoc/base.html" %}
+
+{% block title %}ResearchDoc - {{ page_title }}{% endblock %}
+
+{% block content %}
+
+<div class="py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+
+                <div class="row align-items-center mb-4">
+                    <div class="col-12 col-md-7">
+                        <h1 class="mb-1">{{ page_title }}</h1>
+                        <p class="text-muted mb-0">Set up or update a research workspace</p>
+                    </div>
+
+                    <div class="col-12 col-md-5 text-md-end mt-3 mt-md-0">
+                        <a href="{% url 'project_list' %}" class="btn btn-outline-secondary">Back to Projects</a>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="{{ form.title.id_for_label }}" class="form-label fw-semibold">Project Title</label>
+                                {{ form.title }}
+                                {{ form.title.errors }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.topic.id_for_label }}" class="form-label fw-semibold">Topic</label>
+                                {{ form.topic }}
+                                {{ form.topic.errors }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.description.id_for_label }}" class="form-label fw-semibold">Description</label>
+                                {{ form.description }}
+                                {{ form.description.errors }}
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="{{ form.status.id_for_label }}" class="form-label fw-semibold">Status</label>
+                                {{ form.status }}
+                                {{ form.status.errors }}
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="submit" class="btn btn-primary">{{ button_text }}</button>
+                                <a href="{% url 'project_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

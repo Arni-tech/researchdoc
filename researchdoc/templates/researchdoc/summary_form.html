@@ -1,0 +1,178 @@
+{% extends "researchdoc/base.html" %}
+
+{% block title %}ResearchDoc - {{ page_title }}{% endblock %}
+
+{% block content %}
+
+<div class="py-4">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="row align-items-center mb-4">
+            <div class="col-12 col-md-7">
+                <h1 class="mb-1">{{ page_title }}</h1>
+                <p class="text-muted mb-0">Project: {{ project.title }}</p>
+            </div>
+
+            <div class="col-12 col-md-5 text-md-end mt-3 mt-md-0">
+                <a href="{% url 'project_detail' project.id %}" class="btn btn-outline-secondary">
+                    Back to Project
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Summary Form -->
+            <div class="col-12 col-lg-8">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+
+                        <h2 class="h5 mb-3">Summary Details</h2>
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="{{ form.title.id_for_label }}" class="form-label fw-semibold">Summary Title</label>
+                                {{ form.title }}
+                                {{ form.title.errors }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.content.id_for_label }}" class="form-label fw-semibold">Summary Content</label>
+                                {{ form.content }}
+                                {{ form.content.errors }}
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+
+                                {% if summary %}
+                                    <button type="submit" name="save_and_stay" value="1" class="btn btn-primary">
+                                        Save and Stay
+                                    </button>
+
+                                    <button type="submit" name="save_and_back" value="1" class="btn btn-success">
+                                        Save and Back to Project
+                                    </button>
+                                {% else %}
+                                    <button type="submit" name="create_summary" value="1" class="btn btn-primary">
+                                        Create Summary
+                                    </button>
+                                {% endif %}
+
+                                <a href="{% url 'project_detail' project.id %}" class="btn btn-outline-secondary">
+                                    Back to Project
+                                </a>
+
+                            </div>
+                        </form>
+
+                        {% if summary %}
+                            <p class="text-muted small mt-3 mb-0">
+                                Use “Save and Stay” if you want to keep adding or editing citations.
+                            </p>
+                        {% else %}
+                            <p class="text-muted small mt-3 mb-0">
+                                After creating the summary, you will be able to add citations.
+                            </p>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Citation Panel -->
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+
+                        <h2 class="h5 mb-3">Citations</h2>
+
+                        {% if summary %}
+
+                            <!-- Add Citation Form -->
+                            <form method="post" action="{% url 'citation_create' summary.id %}">
+                                {% csrf_token %}
+
+                                <div class="mb-3">
+                                    <label for="{{ citation_form.citation_text.id_for_label }}" class="form-label fw-semibold">Citation Text</label>
+                                    {{ citation_form.citation_text }}
+                                    {{ citation_form.citation_text.errors }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="{{ citation_form.source_title.id_for_label }}" class="form-label fw-semibold">Source Title</label>
+                                    {{ citation_form.source_title }}
+                                    {{ citation_form.source_title.errors }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="{{ citation_form.source_url.id_for_label }}" class="form-label fw-semibold">Source URL</label>
+                                    {{ citation_form.source_url }}
+                                    {{ citation_form.source_url.errors }}
+                                </div>
+
+                                <button type="submit" class="btn btn-outline-primary w-100 mb-4">
+                                    Add Citation
+                                </button>
+                            </form>
+
+                            <!-- Existing Citations -->
+                            <h3 class="h6 text-muted mb-3">Added Citations</h3>
+
+                            {% if citations %}
+                                <ul class="list-group">
+                                    {% for citation in citations %}
+                                        <li class="list-group-item">
+
+                                            <strong>
+                                                {% if citation.source_title %}
+                                                    {{ citation.source_title }}
+                                                {% else %}
+                                                    Citation
+                                                {% endif %}
+                                            </strong>
+
+                                            <p class="small mb-1 mt-2">
+                                                {{ citation.citation_text }}
+                                            </p>
+
+                                            {% if citation.source_url %}
+                                                <a href="{{ citation.source_url }}" target="_blank" class="small">
+                                                    Open source
+                                                </a>
+                                            {% endif %}
+
+                                            <form method="post" action="{% url 'citation_delete' citation.id %}" class="mt-2">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                    Delete Citation
+                                                </button>
+                                            </form>
+
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-muted mb-0">No citations added yet.</p>
+                            {% endif %}
+
+                        {% else %}
+
+                            <div class="alert alert-info mb-0">
+                                Save the summary first. After it is created, this citation section will become available.
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

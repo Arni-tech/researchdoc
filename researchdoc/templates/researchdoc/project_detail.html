@@ -1,0 +1,312 @@
+{% extends "researchdoc/base.html" %}
+
+{% block title %}ResearchDoc - {{ project.title }}{% endblock %}
+
+{% block content %}
+
+<div class="py-4">
+    <div class="container">
+
+        <!-- Project Header -->
+        <div class="row align-items-center mb-4">
+            <div class="col-12 col-md-7">
+                <h1 class="mb-1">{{ project.title }}</h1>
+                <p class="text-muted mb-0">
+                    {% if project.topic %}
+                        {{ project.topic }}
+                    {% else %}
+                        Research project workspace
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="col-12 col-md-5 mt-3 mt-md-0">
+                <div class="d-flex flex-wrap gap-2 justify-content-md-end">
+                    <a href="{% url 'project_edit' project.id %}" class="btn btn-outline-primary">
+                        Edit Project
+                    </a>
+                    <a href="{% url 'project_delete' project.id %}" class="btn btn-outline-danger">
+                        Delete Project
+                    </a>
+                    <a href="{% url 'project_list' %}" class="btn btn-outline-secondary">
+                        Back to Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Description -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+                <h2 class="h5">Description</h2>
+                <p class="mb-0">
+                    {% if project.description %}
+                        {{ project.description }}
+                    {% else %}
+                        <span class="text-muted">No description added.</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Workspace Instructions -->
+        <div class="alert alert-info shadow-sm border-0">
+            Use this project workspace to manage resources, write summaries with citations,
+            create comparison tables, and organise your research materials.
+        </div>
+
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <span class="nav-link active">Project Workspace</span>
+            </li>
+        </ul>
+
+        <!-- Resources Card -->
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <div>
+                        <h2 class="h5 mb-0">Project Resources</h2>
+                        <p class="text-muted small mb-0">
+                            Upload papers or save external links for this project.
+                        </p>
+                    </div>
+
+                    <a href="{% url 'resource_create' project.id %}" class="btn btn-primary">
+                        Add Resource
+                    </a>
+                </div>
+
+                {% if resources %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Notes</th>
+                                    <th scope="col">Updated</th>
+                                    <th scope="col" class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for resource in resources %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ resource.title }}</strong>
+
+                                            {% if resource.file %}
+                                                <br>
+                                                <a href="{{ resource.file.url }}" target="_blank" class="small">
+                                                    View uploaded file
+                                                </a>
+                                            {% endif %}
+
+                                            {% if resource.external_url %}
+                                                <br>
+                                                <a href="{{ resource.external_url }}" target="_blank" class="small">
+                                                    Open external link
+                                                </a>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                {{ resource.get_resource_type_display }}
+                                            </span>
+                                        </td>
+
+                                        <td>{{ resource.notes|truncatewords:12 }}</td>
+                                        <td>{{ resource.updated_at|date:"d M Y" }}</td>
+
+                                        <td class="text-end">
+                                            <a href="{% url 'resource_edit' resource.id %}" class="btn btn-sm btn-outline-primary">
+                                                Edit
+                                            </a>
+                                            <a href="{% url 'resource_delete' resource.id %}" class="btn btn-sm btn-outline-danger">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center p-4">
+                        <h3 class="h5">No resources yet</h3>
+                        <p class="text-muted">
+                            Add a paper or external link to begin building this research project.
+                        </p>
+                        <a href="{% url 'resource_create' project.id %}" class="btn btn-primary">
+                            Add Resource
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- Summaries Card -->
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <div>
+                        <h2 class="h5 mb-0">Research Summaries</h2>
+                        <p class="text-muted small mb-0">
+                            Write summaries and attach citations for this project.
+                        </p>
+                    </div>
+
+                    <a href="{% url 'summary_create' project.id %}" class="btn btn-primary">
+                        Add Summary
+                    </a>
+                </div>
+
+                {% if summaries %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Preview</th>
+                                    <th scope="col">Updated</th>
+                                    <th scope="col" class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for summary in summaries %}
+                                    <tr>
+                                        <td><strong>{{ summary.title }}</strong></td>
+                                        <td>{{ summary.content|truncatewords:18 }}</td>
+                                        <td>{{ summary.updated_at|date:"d M Y" }}</td>
+                                        <td class="text-end">
+                                            <a href="{% url 'summary_edit' summary.id %}" class="btn btn-sm btn-outline-primary">
+                                                Edit
+                                            </a>
+                                            <a href="{% url 'summary_delete' summary.id %}" class="btn btn-sm btn-outline-danger">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center p-4">
+                        <h3 class="h5">No summaries yet</h3>
+                        <p class="text-muted">
+                            Create a summary to record key findings from your resources.
+                        </p>
+                        <a href="{% url 'summary_create' project.id %}" class="btn btn-primary">
+                            Add Summary
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- Comparison Tables Card -->
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <div>
+                        <h2 class="h5 mb-0">Comparison Tables</h2>
+                        <p class="text-muted small mb-0">
+                            Create visual comparison tables for products, services, or research findings.
+                        </p>
+                    </div>
+
+                    <a href="{% url 'comparison_create' project.id %}" class="btn btn-primary">
+                        Add Comparison Table
+                    </a>
+                </div>
+
+                {% if comparison_tables %}
+                    {% for table in comparison_tables %}
+                        <div class="card border mb-3">
+                            <div class="card-body">
+
+                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                                    <div>
+                                        <h3 class="h5 mb-1">{{ table.title }}</h3>
+                                        <p class="text-muted small mb-0">
+                                            {{ table.item_one }} compared with {{ table.item_two }}
+                                        </p>
+
+                                        {% if table.description %}
+                                            <p class="mt-2 mb-0">{{ table.description }}</p>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="{% url 'comparison_edit' table.id %}" class="btn btn-sm btn-outline-primary">
+                                            Edit
+                                        </a>
+                                        <a href="{% url 'comparison_delete' table.id %}" class="btn btn-sm btn-outline-danger">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th scope="col" style="min-width: 180px;">Criterion</th>
+                                                <th scope="col" style="min-width: 240px;">{{ table.item_one }}</th>
+                                                <th scope="col" style="min-width: 240px;">{{ table.item_two }}</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for row in table.rows.all %}
+                                                <tr>
+                                                    <td>{{ row.criterion }}</td>
+                                                    <td>{{ row.item_one_value }}</td>
+                                                    <td>{{ row.item_two_value }}</td>
+                                                </tr>
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="3" class="text-muted">
+                                                        No comparison rows have been added yet.
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p class="text-muted small mt-2 mb-0">
+                                    Last updated: {{ table.updated_at|date:"d M Y" }}
+                                </p>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center p-4">
+                        <h3 class="h5">No comparison tables yet</h3>
+                        <p class="text-muted">
+                            Create a visual table to compare tools, services, papers, or research findings.
+                        </p>
+                        <a href="{% url 'comparison_create' project.id %}" class="btn btn-primary">
+                            Add Comparison Table
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

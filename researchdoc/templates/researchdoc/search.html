@@ -1,0 +1,171 @@
+{% extends "researchdoc/base.html" %}
+
+{% block title %}ResearchDoc - Search{% endblock %}
+
+{% block content %}
+
+<div class="py-4">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="mb-4">
+            <h1 class="mb-1">Search Research</h1>
+            <p class="text-muted mb-0">
+                Search across your uploaded paper text, resource notes, and research summaries.
+            </p>
+        </div>
+
+        <!-- Search Form -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+                <form method="get" action="{% url 'search' %}">
+                    <div class="row g-2">
+                        <div class="col-12 col-md-9">
+                            <label for="search-input" class="form-label fw-semibold">Search your research</label>
+                            <input
+                                id="search-input"
+                                type="text"
+                                name="q"
+                                value="{{ query }}"
+                                class="form-control"
+                                placeholder="Search keywords such as AI, neural networks, pricing..."
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <button type="submit" class="btn btn-primary w-100">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if query %}
+
+            <div class="mb-3">
+                <h2 class="h5">
+                    Search results for:
+                    <span class="text-primary">"{{ query }}"</span>
+                </h2>
+            </div>
+
+            <div class="row g-4">
+
+                <!-- Resource Results -->
+                <div class="col-12 col-lg-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body">
+
+                            <h2 class="h5 mb-3">Matching Resources</h2>
+
+                            {% if resource_results %}
+                                <div class="list-group">
+                                    {% for resource in resource_results %}
+                                        <div class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-start gap-2">
+
+                                                <div>
+                                                    <h3 class="h6 mb-1">{{ resource.title }}</h3>
+
+                                                    <p class="text-muted small mb-1">
+                                                        Project: {{ resource.project.title }}
+                                                    </p>
+
+                                                    {% if resource.notes %}
+                                                        <p class="mb-1">
+                                                            <strong>Notes:</strong>
+                                                            {{ resource.notes|truncatewords:20 }}
+                                                        </p>
+                                                    {% endif %}
+
+                                                    {% if resource.full_text %}
+                                                        <p class="text-muted small mb-1">
+                                                            <strong>Text:</strong>
+                                                            {{ resource.full_text|truncatewords:25 }}
+                                                        </p>
+                                                    {% endif %}
+                                                </div>
+
+                                                <a href="{% url 'project_detail' resource.project.id %}" class="btn btn-sm btn-outline-primary">
+                                                    Open
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted mb-0">
+                                    No matching resources found.
+                                </p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Results -->
+                <div class="col-12 col-lg-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body">
+
+                            <h2 class="h5 mb-3">Matching Summaries</h2>
+
+                            {% if summary_results %}
+                                <div class="list-group">
+                                    {% for summary in summary_results %}
+                                        <div class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-start gap-2">
+
+                                                <div>
+                                                    <h3 class="h6 mb-1">{{ summary.title }}</h3>
+
+                                                    <p class="text-muted small mb-1">
+                                                        Project: {{ summary.project.title }}
+                                                    </p>
+
+                                                    <p class="mb-1">
+                                                        {{ summary.content|truncatewords:30 }}
+                                                    </p>
+                                                </div>
+
+                                                <a href="{% url 'summary_edit' summary.id %}" class="btn btn-sm btn-outline-primary">
+                                                    Open
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted mb-0">
+                                    No matching summaries found.
+                                </p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <!-- Empty State -->
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-5">
+                    <h2 class="h5">Enter a search term</h2>
+                    <p class="text-muted mb-0">
+                        Search results will appear here after you enter a keyword.
+                    </p>
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

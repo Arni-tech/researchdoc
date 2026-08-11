@@ -1,0 +1,47 @@
+{% extends "researchdoc/base.html" %}
+
+{% block title %}ResearchDoc - Archive Subscription{% endblock %}
+
+{% block content %}
+
+<div class="py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6">
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+
+                        <h1 class="h2 mb-3">Archive Subscription</h1>
+
+                        <p>
+                            Are you sure you want to archive the subscription for
+                            <strong>{{ subscription.user.username }}</strong>?
+                        </p>
+
+                        <p class="text-muted">
+                            This will set the subscription status to archived and mark the archive flag.
+                            It will not delete the user account.
+                        </p>
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn btn-warning">
+                                Yes, Archive Subscription
+                            </button>
+
+                            <a href="{% url 'subscription_list' %}" class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

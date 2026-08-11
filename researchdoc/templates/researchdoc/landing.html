@@ -1,0 +1,44 @@
+{% extends "researchdoc/base.html" %}
+
+{% block title %}ResearchDoc - Home{% endblock %}
+
+{% block content %}
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-lg-6">
+                <h1 class="display-5 fw-bold">Organise your research in one place</h1>
+                <p class="lead text-muted">
+                    ResearchDoc helps users manage research projects, upload papers and links,
+                    write summaries with citations, compare information, and search across research content.
+                </p>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'project_list' %}" class="btn btn-primary btn-lg">Go to Projects</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Login</a>
+                    <a href="{% url 'signup' %}" class="btn btn-outline-primary btn-lg">Sign Up</a>
+                {% endif %}
+            </div>
+
+            <div class="col-12 col-lg-6 mt-4 mt-lg-0">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-3">Key Features</h2>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Create and manage research projects</li>
+                            <li class="list-group-item">Upload papers and store external links</li>
+                            <li class="list-group-item">Write summaries with citations</li>
+                            <li class="list-group-item">Create product/service comparison tables</li>
+                            <li class="list-group-item">Search across resources and summaries</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
