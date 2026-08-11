@@ -267,9 +267,3 @@ For a PythonAnywhere deployment, update `ALLOWED_HOSTS`, configure static files,
 
 ## Author
 Arnav Negi
-
-
-
-````
-
-
