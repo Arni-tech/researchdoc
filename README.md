@@ -21,47 +21,47 @@ Demo notes:
 
 
 
-\## Features
+## Features
 
 
 
-\- User registration, login, and logout using Django authentication
+- User registration, login, and logout using Django authentication
 
-\- Research project creation, editing, listing, and deletion
+- Research project creation, editing, listing, and deletion
 
-\- Resource management for uploaded papers, external links, notes, and searchable full text
+- Resource management for uploaded papers, external links, notes, and searchable full text
 
-\- Research summaries with manually added citations
+- Research summaries with manually added citations
 
-\- Dynamic comparison tables with editable rows
+- Dynamic comparison tables with editable rows
 
-\- Search across resource titles, notes, full text, and summary content
+- Search across resource titles, notes, full text, and summary content
 
-\- Admin-only subscription management with archive functionality
+- Admin-only subscription management with archive functionality
 
-\- Basic accessibility improvements including semantic headings, labelled form fields, descriptive buttons, table headers, and text-based feedback messages
-
-
-
-\## Technology Stack
+- Basic accessibility improvements including semantic headings, labelled form fields, descriptive buttons, table headers, and text-based feedback messages
 
 
 
-\- Python
-
-\- Django
-
-\- SQLite for local/demo database
-
-\- Bootstrap 5
-
-\- HTML templates
-
-\- GitHub for version control
+## Technology Stack
 
 
 
-\## Local Setup
+- Python
+
+- Django
+
+- SQLite for local/demo database
+
+- Bootstrap 5
+
+- HTML templates
+
+- GitHub for version control
+
+
+
+## Local Setup
 
 
 
@@ -87,7 +87,7 @@ Create and activate a virtual environment:
 
 python -m venv venv
 
-venv\\Scripts\\activate
+venvScriptsactivate
 
 ```
 
@@ -153,7 +153,7 @@ http://127.0.0.1:8000/
 
 
 
-\## Project Structure
+## Project Structure
 
 
 
@@ -181,7 +181,7 @@ researchdoc/
 
 │       └── researchdoc/
 
-└── researchdoc\_project/
+└── researchdoc_project/
 
 &#x20;   ├── settings.py
 
@@ -193,7 +193,7 @@ researchdoc/
 
 
 
-\## Main App Workflow
+## Main App Workflow
 
 
 
@@ -205,7 +205,7 @@ Admin users can access the subscription management section, where they can creat
 
 
 
-\## Comparison Tables
+## Comparison Tables
 
 
 
@@ -213,7 +213,7 @@ The comparison table feature was updated from a fixed structure into a more adap
 
 
 
-\## Accessibility Notes
+## Accessibility Notes
 
 
 
@@ -221,17 +221,17 @@ The templates include basic accessibility improvements:
 
 
 
-\* Semantic page headings
+* Semantic page headings
 
-\* Visible labels connected to form fields
+* Visible labels connected to form fields
 
-\* Descriptive buttons and links
+* Descriptive buttons and links
 
-\* Table headers using `scope="col"`
+* Table headers using `scope="col"`
 
-\* Text-based success and error messages
+* Text-based success and error messages
 
-\* Skip-to-main-content support in the base template
+* Skip-to-main-content support in the base template
 
 
 
@@ -239,7 +239,7 @@ These changes improve basic WCAG alignment, although the project is not presente
 
 
 
-\## Deployment Notes
+## Deployment Notes
 
 
 
@@ -247,25 +247,25 @@ The original course deployment was hosted on UQCloud. Since the course server is
 
 
 
-For a PythonAnywhere deployment, update `ALLOWED\_HOSTS`, configure static files, run migrations, and reload the web app through the PythonAnywhere dashboard.
+For a PythonAnywhere deployment, update `ALLOWED_HOSTS`, configure static files, run migrations, and reload the web app through the PythonAnywhere dashboard.
 
 
 
-\## Limitations
+## Limitations
 
 
 
-\* Uploaded files are stored, but PDF text is not automatically extracted.
+* Uploaded files are stored, but PDF text is not automatically extracted.
 
-\* Search uses user-provided resource text, notes, and summaries.
+* Search uses user-provided resource text, notes, and summaries.
 
-\* The subscription system is an admin management feature and does not control real billing or user access.
+* The subscription system is an admin management feature and does not control real billing or user access.
 
-\* The project uses SQLite for simple local/demo setup.
+* The project uses SQLite for simple local/demo setup.
 
 
 
-\## Author
+## Author
 
 
 
