@@ -1,10 +1,4 @@
-Use this as your `README.md`:
-
-
-
-````markdown id="xx4ojq"
-
-\# ResearchDoc
+# ResearchDoc
 
 
 
@@ -13,6 +7,17 @@ ResearchDoc is a Django-based research management web application. It allows use
 
 
 The project was developed as a final web application project for INFS3202/7202.
+
+## Live Demo
+
+ResearchDoc is deployed on PythonAnywhere:
+
+https://arni2314.pythonanywhere.com/
+
+Demo notes:
+- The app supports user registration and login.
+- Users can create projects, add resources, write summaries, add citations, create comparison tables, and search saved research content.
+- Admin-only subscription management is available through staff accounts.
 
 
 
