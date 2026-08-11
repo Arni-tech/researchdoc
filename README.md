@@ -266,42 +266,10 @@ For a PythonAnywhere deployment, update `ALLOWED_HOSTS`, configure static files,
 
 
 ## Author
-
-
-
 Arnav Negi
 
 
 
 ````
-
-
-
-Before committing, create the file:
-
-
-
-```bat id="b811mf"
-
-notepad README.md
-
-````
-
-
-
-Paste the content, save, then:
-
-
-
-```bat id="006vgd"
-
-git add README.md
-
-git commit -m "Add project README"
-
-git push
-
-```
-
 
 
